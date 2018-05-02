@@ -5,7 +5,7 @@
         </div>
         <div class="news_sum container_padding">
             <div class="inner">
-                <div class="date"><span>{{this.getDate()}}</span><span>{{this.getMsgLength()}}</span></div>
+                <div class="date"><span>{{date}}</span><span>{{this.getMsgLength()}}</span></div>
             </div>
         </div>
         <div class="news_list container_padding">
@@ -162,13 +162,14 @@ export default {
     data: () => {
         return ({
             list: [],
+            date: '',
             createButtonLeft: false,
             createButtonRight: true
         })
     },
     methods: {
         // 获取当天时间
-        getDate: function () {
+        getToday: function () {
             let myDate = new Date();
             let year =  myDate.getFullYear();
             let month = myDate.getMonth() + 1;
@@ -177,19 +178,23 @@ export default {
             day = day < 10 ? '0' + day : day;
             return (year + '-' + month + '-' + day);
         },
-        // 获取新闻总条数
-        getMsgLength: function () {
-            return (this.$data.list.length);
-        },
-        // 点击切换新闻列表
-        toggleList: function () {
+        // 获取昨天时间
+        getYesterday: function () {
             let myDate = new Date();
             let year =  myDate.getFullYear();
             let month = myDate.getMonth() + 1;
             month = month < 10 ? '0' + month : month;
             let day = myDate.getDate();
             day = day < 10 ? '0' + day : day;
-            let date = year + '-' + month + '-' + (day - 1)
+            return (year + '-' + month + '-' + (day - 1));
+        },
+        // 获取新闻总条数
+        getMsgLength: function () {
+            return (this.$data.list.length);
+        },
+        // 点击切换新闻列表
+        toggleList: function () {
+            this.$data.date = this.getYesterday();
             this.$http.get('jianshi-backend/data.php?date=' + date).then((data) => {
                 this.$data.list = data.data.data;
                 window.scrollTo(0,0);
@@ -198,6 +203,7 @@ export default {
             })
         },
         toggleListToday: function () {
+            this.$data.date = this.getToday();
             this.$http.get('jianshi-backend/data.php').then((data) => {
                 this.$data.list = data.data.data
                     })
@@ -207,7 +213,7 @@ export default {
         }
     },
     created() {
-        let date = this.getDate();
+        this.$data.date = this.getToday();
         this.$http.get('jianshi-backend/data.php?date=' + date).then((data) => {
                         if (data.data.data === undefined) {
                             return;
