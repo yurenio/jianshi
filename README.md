@@ -23,5 +23,7 @@ yarn serve
 ## 线上部署
 
 ```bash
+yarn install
+
 yarn build
 ```
