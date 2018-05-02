@@ -173,8 +173,8 @@ export default {
             let myDate = new Date();
             let year =  myDate.getFullYear();
             let month = myDate.getMonth() + 1;
-            month = month < 10 ? '0' + month : month;
             let day = myDate.getDate();
+            month = month < 10 ? '0' + month : month;
             day = day < 10 ? '0' + day : day;
             return (year + '-' + month + '-' + day);
         },
@@ -183,10 +183,30 @@ export default {
             let myDate = new Date();
             let year =  myDate.getFullYear();
             let month = myDate.getMonth() + 1;
-            month = month < 10 ? '0' + month : month;
             let day = myDate.getDate();
+            if (day === 1) {
+                month -= 1;
+                if (month === 0) {
+                    month = 12;
+                    year -= 1;
+                }
+                if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
+                    day = 31;
+                } else if (month === 2) {
+                    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+                        day = 29;
+                    } else {
+                        day = 28;
+                    }
+                } else {
+                    day = 30;
+                }
+            } else {
+                day -= 1;
+            }
+            month = month < 10 ? '0' + month : month;
             day = day < 10 ? '0' + day : day;
-            return (year + '-' + month + '-' + (day - 1));
+            return (year + '-' + month + '-' + day);
         },
         // 获取新闻总条数
         getMsgLength: function () {
@@ -205,7 +225,6 @@ export default {
         },
         toggleListToday: function () {
             this.$data.date = this.getToday();
-            let date = this.getToday();
             this.$http.get('jianshi-backend/data.php').then((data) => {
                 this.$data.list = data.data.data
                     })
