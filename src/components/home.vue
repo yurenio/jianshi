@@ -195,6 +195,7 @@ export default {
         // 点击切换新闻列表
         toggleList: function () {
             this.$data.date = this.getYesterday();
+            let date = this.getYesterday();
             this.$http.get('jianshi-backend/data.php?date=' + date).then((data) => {
                 this.$data.list = data.data.data;
                 window.scrollTo(0,0);
@@ -204,6 +205,7 @@ export default {
         },
         toggleListToday: function () {
             this.$data.date = this.getToday();
+            let date = this.getToday();
             this.$http.get('jianshi-backend/data.php').then((data) => {
                 this.$data.list = data.data.data
                     })
@@ -214,6 +216,7 @@ export default {
     },
     created() {
         this.$data.date = this.getToday();
+        let date = this.getToday();
         this.$http.get('jianshi-backend/data.php?date=' + date).then((data) => {
                         if (data.data.data === undefined) {
                             return;
