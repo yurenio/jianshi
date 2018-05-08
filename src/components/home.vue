@@ -146,6 +146,9 @@
         text-align: center;
         font-size: 14px;
         padding-top: 20px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
         a {
             color: @footerAColor;
             display: inline;
