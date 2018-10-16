@@ -160,7 +160,6 @@
 </style>
 
 <script>
-/* eslint-disable */
 export default {
     data: () => {
         return ({
@@ -223,7 +222,8 @@ export default {
         },
 
         getMsgLength: function () {
-            this.$http.get('/jianshi-backend/count.php').then(res => {
+            let date = this.getDay(this.$data.index)
+            this.$http.get('/jianshi-backend/count.php?date=' + date).then(res => {
                 this.$data.count = res.data.count
             })
         },
