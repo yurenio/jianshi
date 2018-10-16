@@ -160,6 +160,7 @@
 </style>
 
 <script>
+/* eslint-disable */
 export default {
     data: () => {
         return ({
@@ -167,7 +168,9 @@ export default {
             date: '',
             toggleButton: false,
             index: 0,
-            count: 0
+            count: 0,
+            lastId: null,
+            lock: true
         })
     },
     methods: {
@@ -193,6 +196,7 @@ export default {
             let date = this.getDay(this.$data.index)
             this.getLists(date)
             this.getMsgLength()
+            window.onscroll = this.scrollEvent
         },
 
         getDay(days = 0) {
@@ -204,13 +208,26 @@ export default {
             return year + '-' + month + '-' + day
         },
 
-        getLists(date) {
-            this.$http.get('/jianshi-backend/data.php?date=' + date).then(res => {
-                if (res.data.data === undefined) {
-                    return
-                }
-                this.$data.list = res.data.data
-            })
+        getLists(date, lastId) {
+            if (lastId) {
+                this.$http.get('/jianshi-backend/data.php?date=' + date + '&last_id=' + lastId).then(res => {
+                    if (res.data.data === undefined) {
+                        return
+                    }
+                    this.$data.lock = true
+                    this.$data.list = this.$data.list.concat(res.data.data)
+                    this.$data.lastId = res.data.data[res.data.data.length - 1].id
+                })
+            } else {
+                this.$http.get('/jianshi-backend/data.php?date=' + date).then(res => {
+                    if (res.data.data === undefined) {
+                        return
+                    }
+                    this.$data.list = res.data.data
+                    this.$data.lastId = res.data.data[res.data.data.length - 1].id
+                })
+            }
+
         },
 
         formatDate(day) {
@@ -228,10 +245,23 @@ export default {
             })
         },
 
+        scrollEvent() {
+            let scrollTop = document.documentElement.scrollTop
+            let clientHeight = document.documentElement.clientHeight
+            let offsetHieght = document.documentElement.offsetHeight
+            if (offsetHieght - clientHeight - scrollTop <= 100) {
+                if (this.$data.lock) {
+                    this.$data.lock = false
+                    this.getLists(this.$data.date, this.$data.lastId)
+                }
+            }
+        }
+
     },
     created() {
         this.getLists(this.getDay())
         this.getMsgLength()
+        window.onscroll = this.scrollEvent
     }
 }
 </script>
