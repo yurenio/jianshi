@@ -22,8 +22,8 @@
         </div>
         <div class="toggle container_padding">
             <div class="inner">
-                <span v-on:click="toggleListToday" class="news_list_today" v-if="createButtonLeft">&larr; 今日</span>
-                <span v-on:click="toggleList" v-if="createButtonRight">昨日 &rarr;</span>
+                <span v-on:click="changelists" class="news_list_today" v-if="toggleButton">&larr; 今日</span>
+                <span v-on:click="changelists" >昨日 &rarr;</span>
             </div>
         </div>
         <div class="footer container_padding">
@@ -160,90 +160,58 @@
 </style>
 
 <script>
+/* eslint-disable */
 export default {
     data: () => {
         return ({
             list: [],
             date: '',
-            createButtonLeft: false,
-            createButtonRight: true
+            toggleButton: false,
+            index: 0,
         })
     },
     methods: {
-        // 获取当天时间
-        getToday: function () {
-            let myDate = new Date();
-            let year =  myDate.getFullYear();
-            let month = myDate.getMonth() + 1;
-            let day = myDate.getDate();
-            month = month < 10 ? '0' + month : month;
-            day = day < 10 ? '0' + day : day;
-            return (year + '-' + month + '-' + day);
+
+        changelists() {
+            this.$data.index += 1
+            let date = this.getDay(this.$data.index)
+            this.getLists(date)
+            scroll(0, 0)
         },
-        // 获取昨天时间
-        getYesterday: function () {
-            let myDate = new Date();
-            let year =  myDate.getFullYear();
-            let month = myDate.getMonth() + 1;
-            let day = myDate.getDate();
-            if (day === 1) {
-                month -= 1;
-                if (month === 0) {
-                    month = 12;
-                    year -= 1;
-                }
-                if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
-                    day = 31;
-                } else if (month === 2) {
-                    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-                        day = 29;
-                    } else {
-                        day = 28;
-                    }
-                } else {
-                    day = 30;
-                }
+
+        getDay(days = 0) {
+            let date = new Date(new Date() - (1000 * 60 * 60 * 24) * days)
+            let year = date.getFullYear()
+            let month = this.formatDate(date.getMonth() + 1)
+            let day = this.formatDate(date.getDate())
+            this.$data.date = year + '-' + month + '-' + day
+            return year + '-' + month + '-' + day
+        },
+
+        getLists(date) {
+            this.$http.get('/jianshi-backend/data.php?date=' + date).then(res => {
+                if (res.data.data === undefined) {
+                    return 
+                } 
+                this.$data.list = res.data.data
+            })
+        },
+
+        formatDate(day) {
+            if (day < 10) {
+                return '0' + day
             } else {
-                day -= 1;
+                return day
             }
-            month = month < 10 ? '0' + month : month;
-            day = day < 10 ? '0' + day : day;
-            return (year + '-' + month + '-' + day);
         },
-        // 获取新闻总条数
+
         getMsgLength: function () {
             return (this.$data.list.length);
         },
-        // 点击切换新闻列表
-        toggleList: function () {
-            this.$data.date = this.getYesterday();
-            let date = this.getYesterday();
-            this.$http.get('jianshi-backend/data.php?date=' + date).then((data) => {
-                this.$data.list = data.data.data;
-                window.scrollTo(0,0);
-                this.$data.createButtonLeft = !this.$data.createButtonLeft;
-                this.$data.createButtonRight = !this.$data.createButtonRight;
-            })
-        },
-        toggleListToday: function () {
-            this.$data.date = this.getToday();
-            this.$http.get('jianshi-backend/data.php').then((data) => {
-                this.$data.list = data.data.data
-                    })
-                    window.scrollTo(0,0);
-                    this.$data.createButtonLeft = !this.$data.createButtonLeft;
-                this.$data.createButtonRight = !this.$data.createButtonRight;
-        }
+
     },
     created() {
-        this.$data.date = this.getToday();
-        let date = this.getToday();
-        this.$http.get('jianshi-backend/data.php?date=' + date).then((data) => {
-                        if (data.data.data === undefined) {
-                            return;
-                        }
-                        this.$data.list = data.data.data
-                    })
+        this.getLists(this.getDay())
     }
 }
 </script>
