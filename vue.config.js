@@ -7,5 +7,14 @@ module.exports = {
 				"vue$": 'vue/dist/vue.common.js'
 			}
 		}
+	},
+	devServer: {
+		proxy: {
+			'/': {
+				target: 'http://www.jiantop.com',
+				changeOrigin: true,
+				ws: false
+			}
+		}
 	}
 }
