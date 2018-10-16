@@ -249,7 +249,7 @@ export default {
             let scrollTop = document.documentElement.scrollTop
             let clientHeight = document.documentElement.clientHeight
             let offsetHieght = document.documentElement.offsetHeight
-            if (offsetHieght - clientHeight - scrollTop <= 100) {
+            if (offsetHieght - clientHeight - scrollTop <= 300) {
                 if (this.$data.lock) {
                     this.$data.lock = false
                     this.getLists(this.$data.date, this.$data.lastId)
