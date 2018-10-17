@@ -211,7 +211,7 @@ export default {
         getLists(date, lastId) {
             if (lastId) {
                 this.$http.get('/jianshi-backend/data.php?date=' + date + '&last_id=' + lastId).then(res => {
-                    if (res.data.data === undefined) {
+                    if (res.data.data.length === 0) {
                         return
                     }
                     this.$data.lock = true
@@ -220,7 +220,7 @@ export default {
                 })
             } else {
                 this.$http.get('/jianshi-backend/data.php?date=' + date).then(res => {
-                    if (res.data.data === undefined) {
+                    if (res.data.data.length === 0) {
                         return
                     }
                     this.$data.list = res.data.data
