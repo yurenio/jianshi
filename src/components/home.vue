@@ -1,38 +1,38 @@
 <template>
-    <div>
-        <div class="nav container_padding">
-            <h1><a href="#">简拾</a></h1>
-        </div>
-        <div class="main">
-            <div class="news_sum container_padding">
-            <div class="inner">
-                <div class="date"><span>{{date}}</span><span>{{ count }}</span></div>
-            </div>
-        </div>
-        <div class="news_list container_padding">
-            <div class="inner">
-                <ul>
-                    <li v-for="(item, index) in list" :key="index">
-                        <a :href="item.link" target="_blank">
-                            <p>{{item.title}}</p>
-                            <p>{{item.info}}</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="toggle container_padding">
-            <div class="inner">
-                <span v-on:click="changelists('back')" class="news_list_today" v-if="toggleButton">&larr; 后一日</span>
-                <span v-on:click="changelists('forward')">前一日 &rarr;</span>
-            </div>
-        </div>
-        </div>
-        <div class="footer container_padding">
-            <span>Copyright &copy; 2014 - 2018 简拾, All Rights Reserved.&nbsp;</span>
-            <a href="http://yuren.io/" target="_blank">联系作者</a>
-        </div>
+  <div>
+    <div class="nav container_padding">
+        <h1><a href="#">简拾</a></h1>
     </div>
+    <div class="main">
+      <div class="news_sum container_padding">
+      <div class="inner">
+        <div class="date"><span>{{date}}</span><span>{{ count }}</span></div>
+      </div>
+      </div>
+      <div class="news_list container_padding">
+        <div class="inner">
+          <ul>
+            <li v-for="(item, index) in list" :key="index">
+              <a :href="item.link" target="_blank">
+                <p>{{item.title}}</p>
+                <p>{{item.info}}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="toggle container_padding">
+        <div class="inner">
+          <span v-on:click="changelists('back')" class="news_list_today" v-if="toggleButton">&larr; 后一日</span>
+          <span v-on:click="changelists('forward')">前一日 &rarr;</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer container_padding">
+      <span>Copyright &copy; 2014 - 2018 简拾, All Rights Reserved.&nbsp;</span>
+      <a href="http://yuren.io/" target="_blank">联系作者</a>
+    </div>
+  </div>
 </template>
 
 <style lang="less">
