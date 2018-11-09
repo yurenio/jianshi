@@ -51,8 +51,9 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: constant(safe-area-inset-bottom);
-    height: env(safe-area-inset-bottom);
+    height: 20px;
+    height: constant(safe-area-inset-top);
+    height: env(safe-area-inset-top);
     background-color: @navBg;
 }
 
