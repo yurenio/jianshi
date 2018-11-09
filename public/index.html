@@ -12,6 +12,12 @@
     <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <link rel="apple-touch-icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <title>简拾 - 收拾简书的好文章</title>
+    <style>
+      body {
+        padding-bottom: constant(safe-area-inset-bottom);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+    </style>
   </head>
   <body>
     <noscript>
