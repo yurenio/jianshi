@@ -1,6 +1,5 @@
 <template>
     <div>
-        <div class="safe-top"></div>
         <div class="nav container_padding">
             <h1><a href="#">简拾</a></h1>
         </div>
@@ -31,7 +30,6 @@
             <span>Copyright &copy; 2014 - 2018 简拾, All Rights Reserved.&nbsp;</span>
             <a href="http://yuren.io/" target="_blank">联系作者</a>
         </div>
-        <div class="safe-bottom"></div>
     </div>
 </template>
 
@@ -47,29 +45,13 @@
 
 @import url("../less/base.less");
 
-.safe-top {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 20px;
-    height: constant(safe-area-inset-top);
-    height: env(safe-area-inset-top);
-    background-color: @navBg;
-}
-
-.safe-bottom {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: constant(safe-area-inset-bottom);
-    height: env(safe-area-inset-bottom);
-    background-color: @footerBg;
-}
-
 .nav {
   width: 100%;
   background: @navBg;
   margin-bottom: 50px;
+  padding-top: 20px;
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
   h1 {
     text-align: center;
     a {
@@ -169,6 +151,8 @@
   padding-top: 20px;
   bottom: 0;
   width: 100%;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
   a {
     color: @footerAColor;
     display: inline;
