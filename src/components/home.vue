@@ -52,6 +52,7 @@
     top: 0;
     width: 100%;
     height: constant(safe-area-inset-bottom);
+    height: env(safe-area-inset-bottom);
     background-color: @navBg;
 }
 
@@ -60,6 +61,7 @@
     bottom: 0;
     width: 100%;
     height: constant(safe-area-inset-bottom);
+    height: env(safe-area-inset-bottom);
     background-color: @footerBg;
 }
 

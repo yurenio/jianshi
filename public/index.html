@@ -8,16 +8,20 @@
     <meta name="keywords" content="简拾,简书,文章,智能分析,Yuren.io">
     <meta name="author" content="kiko@yuren.io">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <link rel="apple-touch-icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <title>简拾 - 收拾简书的好文章</title>
     <style>
       body {
         padding-top: constant(safe-area-inset-bottom);
+        padding-top: env(safe-area-inset-bottom);
         padding-bottom: constant(safe-area-inset-bottom);
+        padding-bottom: env(safe-area-inset-bottom);
         padding-right: constant(safe-area-inset-bottom);
+        padding-right: env(safe-area-inset-bottom);
         padding-left: constant(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-bottom);
       }
     </style>
   </head>
